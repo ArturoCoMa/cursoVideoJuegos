@@ -7,6 +7,9 @@ public class Goal : MonoBehaviour
     public bool goal1;
     GameManager go;
 
+    public AudioSource audioScore;
+
+
     // Start is called before the first frame update
     void Start()
     {
@@ -25,8 +28,10 @@ public class Goal : MonoBehaviour
         {
             if(goal1){
                 go.PointForP1();
+                audioScore.Play();
             }else{
                 go.PointForP2();
+                audioScore.Play();
             }
         }
         

@@ -8,7 +8,8 @@ public class Ball : MonoBehaviour
     public float speed;
     public Rigidbody2D rb;
 
-    public AudioSource audioSource;
+    public AudioSource audioPalas;
+    public AudioSource audioMuros;
 
     // Start is called before the first frame update
     void Start()
@@ -32,7 +33,13 @@ public class Ball : MonoBehaviour
     {
         if(collision.gameObject.CompareTag("Player"))
         {
-            audioSource.Play();
+            audioPalas.Play();
+            //Aquí tiene que aumentar la velocidad de la bola
+        }
+
+        if(collision.gameObject.CompareTag("Wall"))
+        {
+            audioMuros.Play();
         }
     }
 }
