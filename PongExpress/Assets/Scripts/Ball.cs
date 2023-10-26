@@ -10,6 +10,8 @@ public class Ball : MonoBehaviour
 
     public AudioSource audioPalas;
     public AudioSource audioMuros;
+    float x;
+    float y;
 
     // Start is called before the first frame update
     void Start()
@@ -24,8 +26,8 @@ public class Ball : MonoBehaviour
     }
 
     public void Launch(){
-        float x = UnityEngine.Random.Range(0,2) == 0?-1:1;
-        float y = UnityEngine.Random.Range(0,2) == 0?-1:1;
+        x = UnityEngine.Random.Range(0,2) == 0?-1:1;
+        y = UnityEngine.Random.Range(0,2) == 0?-1:1;
         rb.velocity = new Vector2(x*speed, y*speed);
     }
 
@@ -34,7 +36,7 @@ public class Ball : MonoBehaviour
         if(collision.gameObject.CompareTag("Player"))
         {
             audioPalas.Play();
-            //Aquí tiene que aumentar la velocidad de la bola
+            rb.velocity *= new Vector2(1.1f, 1.1f);
         }
 
         if(collision.gameObject.CompareTag("Wall"))
