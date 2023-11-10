@@ -27,10 +27,10 @@ public class Goal : MonoBehaviour
         if(collision.CompareTag("Ball"))
         {
             if(goal1){
-                go.PointForP1();
+                go.PointForP("1");
                 audioScore.Play();
             }else{
-                go.PointForP2();
+                go.PointForP("2");
                 audioScore.Play();
             }
         }

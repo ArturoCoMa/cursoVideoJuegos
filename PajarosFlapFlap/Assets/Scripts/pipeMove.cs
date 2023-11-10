@@ -15,7 +15,8 @@ public class pipeMove : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(rb.position.x < -10){
+        if(rb.position.x < -10)
+        {
             GameObject.Destroy(gameObject);
         }
     }

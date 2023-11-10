@@ -18,12 +18,12 @@ public class Spawn : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        desviacion = UnityEngine.Random.Range(-3,3);
+
+        desviacion = UnityEngine.Random.Range(-2,2);
         Instantiate(pipeDownPrefab).transform.position = new Vector3(9.99f,-3.27f+desviacion, 0f);
         Instantiate(pipeUpPrefab).transform.position = new Vector3(9.99f,4.99f+desviacion, 0f);
         timer = 0f;
         limitTimeSpawn = UnityEngine.Random.Range(3,7);
-        
 
     }
 
@@ -31,14 +31,13 @@ public class Spawn : MonoBehaviour
     void Update()
     {
         timer += Time.deltaTime;
-        if(timer > limitTimeSpawn){
-            desviacion = UnityEngine.Random.Range(-3,3);
+        if(timer > limitTimeSpawn)
+        {
+            desviacion = UnityEngine.Random.Range(-2,2);
             timer = 0f;
             Instantiate(pipeDownPrefab).transform.position = new Vector3(9.99f,-3.27f+desviacion, 0f);
             Instantiate(pipeUpPrefab).transform.position = new Vector3(9.99f,4.99f+desviacion, 0f);
-            limitTimeSpawn = UnityEngine.Random.Range(6,8);
-
+            limitTimeSpawn = UnityEngine.Random.Range(3,4);
         }
-        
     } 
 }

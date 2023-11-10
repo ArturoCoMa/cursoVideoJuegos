@@ -20,9 +20,68 @@ public class GameManager : MonoBehaviour
     public static int score1 = 0;
     public static int score2 = 0;
 
+    public enum PlayerControllerState{
+        ready,
+        playing,
+        gameOver
+    }
+
+    private PlayerControllerState state;
+
     void Start()
     {
+        state = PlayerControllerState.ready;
         winPlayer.gameObject.SetActive(false);
+    }
+
+    
+
+    public void PointForP(String playerScoring){
+        if(playerScoring == "1"){
+            score1++;
+            marcadorP1.text = ""+score1;
+            player2.transform.localScale += new Vector3(0f, -0.5f, 0F);
+            player1.transform.localScale += new Vector3(0f, 0.5f, 0F);
+        }else{
+            score2++;
+            marcadorP2.text = ""+score2;
+            player1.transform.localScale += new Vector3(0f, -0.5f, 0F);
+            player2.transform.localScale += new Vector3(0f, 0.5f, 0F);
+        }
+        
+        Debug.Log("Puntuación: "+score1+":"+score2);
+        
+        if (score1 >= 2 || score2 >= 2){
+            state = PlayerControllerState.gameOver;
+        }else{
+            state = PlayerControllerState.ready;
+        }
+        
+    }
+    
+    void Update()
+    {
+
+        switch (state){
+            case PlayerControllerState.ready:
+                UpdateReady();
+            break;
+            case PlayerControllerState.playing:
+                UpdatePlaying();
+            break;
+            case PlayerControllerState.gameOver:
+                UpdateGameOver("");
+            break;
+        }
+    }
+
+    void UpdateReady(){
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            var go = GameObject.Find("GameManager").GetComponent<GameManager>();
+            go.Reset();
+            state = PlayerControllerState.playing;
+        }
     }
 
     public void Reset(){
@@ -32,36 +91,6 @@ public class GameManager : MonoBehaviour
         player2.transform.position = new Vector3(7.73f,-0.1f,0);
     }
 
-    public void PointForP1(){
-        score2++;
-        marcadorP2.text = ""+score2;
-        player2.transform.localScale += new Vector3(0f, -0.5f, 0F);
-        player1.transform.localScale += new Vector3(0f, 0.5f, 0F);
-        Debug.Log("Puntuación: "+score1+":"+score2);
-    }
-
-    public void PointForP2(){
-        score1++;
-        marcadorP1.text = ""+score1;
-        player1.transform.localScale += new Vector3(0f, -0.5f, 0F);
-        player2.transform.localScale += new Vector3(0f, 0.5f, 0F);
-        Debug.Log("Puntuación: "+score1+":"+score2);
-    }
-    
-    void Update()
-    {
-        Winner();
-        LaunchBall();
-        ResetScore();
-    }
-
-    void LaunchBall(){
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            var go = GameObject.Find("GameManager").GetComponent<GameManager>();
-            go.Reset();
-        }
-    }
 
     void ResetScore(){
         if (Input.GetKeyDown(KeyCode.Tab)){
@@ -72,17 +101,19 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    void Winner(){
-        if (score1>=2){
-            winPlayer.text = "Player 1 WINS!!!";
+    void UpdatePlaying(){
+        ResetScore();
+    }
+
+    void UpdateGameOver(String winner){
+        winPlayer.text = "Player "+winner+" WINS!!!";
+        if (Input.GetKeyDown(KeyCode.Space)){
+            Reset();
+            ResetScore();
+        }else if (Input.GetKeyDown(KeyCode.Escape)){
             winPlayer.gameObject.SetActive(true);
             UnityEditor.EditorApplication.isPlaying = false;
-            //Application.Quit();
-        }else if (score2>=2){
-            winPlayer.text = "Player 2 WINS!!!";
-            winPlayer.gameObject.SetActive(true);
-            UnityEditor.EditorApplication.isPlaying = false;
-            //Application.Quit();
         }
+        
     }
 }
